@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:jigsaw", // Specifies that this is a Jigsaw structure.
+
+  // "start_pool" should be a valid reference to a pool, starting with the namespace of your datapack.
+  "start_pool": "cobblefossil:geode_aerodactyl/start_pool",
+
+  "size": 2, // Specifies the size of the structure.
+  "max_distance_from_center": 80, // Maximum distance from the world center where this structure can generate.
+
+  // "biomes" should be a list of biome IDs or biome tags where the structure can generate.
+  "biomes": "#cobblefossil:has_structure/geode_aerodactyl",
+
+  // "step" should be "carvers" or "surface_structures" depending on the type of structure.
+  "step": "surface_structures",
+
+  "start_height": {
+    "absolute": -10 // Specifies the absolute starting height of the structure.
+  },
+
+  // "project_start_to_heightmap" should be either "WORLD_SURFACE_WG" or "WORLD_SURFACE."
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+
+  "use_expansion_hack": false, // This setting can be true or false depending on your needs.
+
+  // "spawn_overrides" should be an object that defines spawn overrides for entities within the structure.
+  "spawn_overrides": {}
+}

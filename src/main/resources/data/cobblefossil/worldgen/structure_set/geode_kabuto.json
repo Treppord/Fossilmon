@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "cobblefossil:geode_kabuto",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 369011901,
+
+    "spacing": 50,
+
+    "separation": 10,
+
+    "type": "minecraft:random_spread"
+  }
+}

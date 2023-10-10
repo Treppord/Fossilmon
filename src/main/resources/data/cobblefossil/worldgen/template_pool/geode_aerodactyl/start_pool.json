@@ -1,0 +1,23 @@
+{
+
+  "name": "cobblefossil:geode_aerodactyl/start_pool",
+
+  "fallback": "minecraft:empty",
+
+  "elements": [
+    {
+
+      "weight": 1,
+      "element": {
+
+        "location": "cobblefossil:geode_aerodactyl",
+
+        "processors": "minecraft:empty",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "cobblefossil:geode_omanyte",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 369011902,
+
+    "spacing": 50,
+
+    "separation": 10,
+
+    "type": "minecraft:random_spread"
+  }
+}

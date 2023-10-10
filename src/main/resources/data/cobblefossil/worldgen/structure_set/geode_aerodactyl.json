@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "cobblefossil:geode_aerodactyl",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 369011900,
+
+    "spacing": 50,
+
+    "separation": 10,
+
+    "type": "minecraft:random_spread"
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"item.cobblefossil.fossil_kabuto": "Kabuto Fossil",
+	"item.cobblefossil.fossil_omanyte": "Omanyte Fossil",
+	"item.cobblefossil.fossil_aerodactyl": "Aerodactyl Fossil",
+	"item.cobblefossil.note": "WIP",
+
+	"block.cobblefossil.fossil_kabuto_ore": "Kabuto Fossil Ore",
+	"block.cobblefossil.fossil_aerodactyl_ore": "Aerodactyl Fossil Ore",
+	"block.cobblefossil.fossil_omanyte_ore": "Omanyte Fossil Ore",
+
+	"block.cobblefossil.fossilizer": "Fossilizer",
+	"itemGroup.cobblefossil.fossils": "Fossilmon"
+}

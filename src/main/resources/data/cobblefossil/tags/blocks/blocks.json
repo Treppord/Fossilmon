@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "cobblefossil:fossil_kabuto_ore",
+    "cobblefossil:fossil_omanyte_ore",
+    "cobblefossil:fossil_aerodactyl_ore",
+    "cobblefossil:fossilizer",
+    "cobblefossil:fossilizer_top",
+    "cobblefossil:fossilizer_bottom"
+  ]
+}
