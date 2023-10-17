@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import trep.cobblefossil.block.ModBlocks;
 import trep.cobblefossil.blockentity.ModBlockEntities;
 import trep.cobblefossil.config.ModConfigs;
+import trep.cobblefossil.item.ModItemGroup;
 import trep.cobblefossil.item.ModItems;
+import trep.cobblefossil.util.ModLootTableModifiers;
 import trep.cobblefossil.world.gen.OreGeneration;
 
 public class Cobblefossil implements ModInitializer {
@@ -22,7 +24,10 @@ public class Cobblefossil implements ModInitializer {
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 		ModBlockEntities.registerAllBlockEntities();
+		ModItemGroup.registerItemGroups();
 		//OreGeneration.registerOreGeneration();
+		ModLootTableModifiers.modifyLootTables();
+
 
 
 		LOGGER.info("CobbleFossils Mod is Running Properly");

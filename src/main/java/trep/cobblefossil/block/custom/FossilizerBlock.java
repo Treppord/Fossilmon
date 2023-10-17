@@ -1,34 +1,26 @@
 package trep.cobblefossil.block.custom;
 
-import com.cobblemon.mod.common.CobblemonItems;
-import com.cobblemon.mod.common.command.GivePokemon;
 import com.mojang.brigadier.ParseResults;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty; // Import DirectionProperty
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import trep.cobblefossil.blockentity.custom.FossilizerBlockEntity;
 import trep.cobblefossil.item.ModItems;
 
@@ -37,8 +29,9 @@ import java.util.Random;
 public class FossilizerBlock extends Block {
 
 
-    protected static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 15.0, 15.0);
-    protected static final VoxelShape OUTLINE_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
+    private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
+
+    private static final VoxelShape OUTLINE_SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 16.0, 15.0);
 
 
     public static final BooleanProperty HAS_NOTE = BooleanProperty.of("has_note");
@@ -46,8 +39,8 @@ public class FossilizerBlock extends Block {
 
     public static final BooleanProperty TEXTURE_VARIANT = BooleanProperty.of("texture_variant");
 
-    public FossilizerBlock() {
-        super(FabricBlockSettings.of(Material.STONE).hardness(1.0f));
+    public FossilizerBlock(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(HAS_NOTE, false).with(FACING, Direction.NORTH).with(TEXTURE_VARIANT, false));
     }
 
@@ -68,22 +61,38 @@ public class FossilizerBlock extends Block {
     }
 
 
+    @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        Direction playerLookDirection = ctx.getPlayerLookDirection();
+        Direction placedDirection = playerLookDirection.getAxis().isHorizontal() ? playerLookDirection.getOpposite() : Direction.NORTH;
+
+        return this.getDefaultState().with(FACING, placedDirection);
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient && hand == Hand.MAIN_HAND) {
             ItemStack heldItem = player.getStackInHand(hand);
 
+            // Check if the held item is one of the allowed items
+            if (heldItem.getItem() == ModItems.KABUTO_FOSSIL ||
+                    heldItem.getItem() == ModItems.AERODACTYL_FOSSIL ||
+                    heldItem.getItem() == ModItems.OMANYTE_FOSSIL) {
+
+
+
+
+
+
+
+
             if (heldItem.getItem() == ModItems.KABUTO_FOSSIL && !state.get(HAS_NOTE)) {
                 if (!player.getAbilities().creativeMode) {
                     heldItem.decrement(1);
                 }
 
-                // Get the block entity and start the texture switch
-                BlockEntity blockEntity = world.getBlockEntity(pos);
+                // Create a block entity to control the displayed item
+                FossilizerBlockEntity blockEntity = (FossilizerBlockEntity) world.getBlockEntity(pos);
                 if (blockEntity instanceof FossilizerBlockEntity) {
                     ((FossilizerBlockEntity) blockEntity).startTextureSwitch();
                 }
@@ -109,7 +118,16 @@ public class FossilizerBlock extends Block {
                     }
                 }
 
-                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HAT, SoundCategory.BLOCKS, 1f, 1f);
+
+
+
+                if (blockEntity != null) {
+                    // Store the item in the block entity and start the timer
+                    blockEntity.setDisplayedItem(heldItem);
+                    blockEntity.startDisplayTimer();
+                }
+
+
                 return ActionResult.SUCCESS;
             }
             if (heldItem.getItem() == ModItems.AERODACTYL_FOSSIL && !state.get(HAS_NOTE)) {
@@ -118,7 +136,7 @@ public class FossilizerBlock extends Block {
                 }
 
                 // Get the block entity and start the texture switch
-                BlockEntity blockEntity = world.getBlockEntity(pos);
+                FossilizerBlockEntity blockEntity = (FossilizerBlockEntity) world.getBlockEntity(pos);
                 if (blockEntity instanceof FossilizerBlockEntity) {
                     ((FossilizerBlockEntity) blockEntity).startTextureSwitch();
                 }
@@ -144,7 +162,14 @@ public class FossilizerBlock extends Block {
                     }
                 }
 
-                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HAT, SoundCategory.BLOCKS, 1f, 1f);
+
+
+                if (blockEntity != null) {
+                    // Store the item in the block entity and start the timer
+                    blockEntity.setDisplayedItem(heldItem);
+                    blockEntity.startDisplayTimer();
+                }
+
                 return ActionResult.SUCCESS;
             }
             if (heldItem.getItem() == ModItems.OMANYTE_FOSSIL && !state.get(HAS_NOTE)) {
@@ -153,7 +178,7 @@ public class FossilizerBlock extends Block {
                 }
 
                 // Get the block entity and start the texture switch
-                BlockEntity blockEntity = world.getBlockEntity(pos);
+                FossilizerBlockEntity blockEntity = (FossilizerBlockEntity) world.getBlockEntity(pos);
                 if (blockEntity instanceof FossilizerBlockEntity) {
                     ((FossilizerBlockEntity) blockEntity).startTextureSwitch();
                 }
@@ -179,10 +204,18 @@ public class FossilizerBlock extends Block {
                     }
                 }
 
-                world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HAT, SoundCategory.BLOCKS, 1f, 1f);
+
+
+                if (blockEntity != null) {
+                    // Store the item in the block entity and start the timer
+                    blockEntity.setDisplayedItem(heldItem);
+                    blockEntity.startDisplayTimer();
+                }
                 return ActionResult.SUCCESS;
             }
         }
+            return ActionResult.SUCCESS;
+            }
         return ActionResult.PASS;
     }
 
